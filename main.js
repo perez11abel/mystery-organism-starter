@@ -12,11 +12,12 @@ const mockUpStrand = () => {
   }
   return newStrand;
 };
-
+// Factory Function for DNA strands
 const pAequorFactory = (specimanNum, dna) => {
   return {
     specimanNum,
     dna,
+    // Replaces a single index with a new value from returnRandBase. Cannot be the same value.
     mutate() {
       const randIndex = Math.floor(Math.random() * this.dna.length);
       let newBase = returnRandBase();
@@ -26,6 +27,7 @@ const pAequorFactory = (specimanNum, dna) => {
       this.dna[randIndex] = newBase;
       return this.dna;
     },
+    // Checks to see the identical percentage the current DNA strand is to a new DNA strand
     compareDNA(otherOrg) {
       const similarities = this.dna.reduce((acc, curr, idx, arr) => {
         if (arr[idx] === otherOrg.dna[idx]) {
@@ -40,15 +42,15 @@ const pAequorFactory = (specimanNum, dna) => {
         `${this.specimanNum} and ${otherOrg.specimanNum} have ${percentageTo2Deci}% DNA in common`
       );
     },
-    //  return true if the objects DNA contains at least 60% 'C' or 'G' bases. else return false.
+    //  return true if the objects' DNA contains at least 60% 'C' or 'G' bases. else return false.
     willLikelySurvive() {
       const cOrG = this.dna.filter((el) => el === "C" || el === "G");
-      //  return if their value is greater than or equal to 60%
       return cOrG.length / this.dna.length >= 0.6;
     },
   };
 };
 
+// Creates 30 species that will have the highest chance of survival.
 const survivingSpecies = [];
 let idCounter = 1;
 while (survivingSpecies.length < 30) {
@@ -59,5 +61,3 @@ while (survivingSpecies.length < 30) {
   idCounter++;
 }
 console.log(survivingSpecies);
-
-// console.log(pAequorFactory(1, mockUpStrand()).willLikelySurvive())
